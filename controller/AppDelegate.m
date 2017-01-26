@@ -49,7 +49,7 @@
     
     //NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dataToSend options:0 error:&error];
     
-    NSString *jsonString;
+    //NSString *jsonString;
     if (! data) {
         NSLog(@"Got an error: %@", error);
     } else {
@@ -77,6 +77,7 @@
                           
                           NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
                           NSInteger code = [httpResponse statusCode];
+                          
                           NSLog(@"%ld", (long)code);
                           
                           if (!(code >= 200 && code < 300)) {
@@ -88,6 +89,8 @@
                               NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
                                                       string, @"result",
                                                       nil];
+                              NSString *responseBody = [[NSString alloc] initWithData:rawData encoding:NSUTF8StringEncoding];
+                              NSLog(@"My dictionary is %@", responseBody);
                               [calledBy performSelector:successCallback withObject:result];
                           }
                       }];
@@ -108,10 +111,11 @@
     [self.statusItem setMenu:self.statusMenu];
     //[self.statusItem setTitle:@"I2PD"];
     NSImage *icon = [NSImage imageNamed:@"AppIcon"];
-    icon.template = YES;
+    //icon.template = YES;
     self.statusItem.image = icon;
     
     [self.statusItem setHighlightMode:YES];
+    [[_statusMenu itemAtIndex:0]  setEnabled:NO];
     //CFBundleRef mainBundle;
     
     
@@ -134,12 +138,20 @@
 - (IBAction)StartI2PD:(id)sender {
     NSBundle *myBundle = [NSBundle mainBundle];
     NSString *absPath= [myBundle pathForResource:@"i2pd" ofType:@""];
+    NSString *confPath = [myBundle pathForResource:@"tunnel" ofType:@"conf"];
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:absPath];
-    [task setArguments:@[ @"--i2pcontrol.enabled=1", @"--loglevel=error"]];
+    NSMutableString* tunnConf = [NSMutableString stringWithString: @"--tunconf="];
+    [tunnConf appendString:confPath];
+    [task setArguments:@[ @"--i2pcontrol.enabled=1",tunnConf]];
     [task launch];
-    [_statusItem setTarget:nil];
-    
+    //[_statusMenu isEnabled:false];
+    //[_statusItem.enabled:0];
+    [[_statusMenu itemAtIndex:2]  setEnabled:NO];
+    [[_statusMenu itemAtIndex:3]  setEnabled:YES];
+
+    NSImage *icon = [NSImage imageNamed:@"Connected"];
+    self.statusItem.image = icon;
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     return [menuItem isEnabled];
@@ -157,11 +169,23 @@
        calledBy:self
     withSuccess:@selector(RequestEnd:)
      andFailure:@selector(RequestFailure:)];
+    [[_statusMenu itemAtIndex:3]  setEnabled:NO];
+    NSImage *icon = [NSImage imageNamed:@"AppIcon"];
+    self.statusItem.image = icon;
+    [[_statusMenu itemAtIndex:2]  setEnabled:YES];
+
+
 }
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
+    NSString *dataSend = @"{\"id\":\"1\", \"method\":\"RouterManager\",\"params\":{\"Shutdown\":\"\"},\"jsonrpc\":\"2.0\"}";
+    
+    [self SendRequest:dataSend
+             calledBy:self
+          withSuccess:@selector(RequestEnd:)
+           andFailure:@selector(RequestFailure:)];
 }
 
 

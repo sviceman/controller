@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E6E7E3D1E38DF20003BAE00 /* i2pd in Resources */ = {isa = PBXBuildFile; fileRef = 1E6E7E3C1E38DF20003BAE00 /* i2pd */; };
+		1E6E7E3F1E3937C7003BAE00 /* i2pd.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E6E7E3E1E3937C7003BAE00 /* i2pd.png */; };
+		1E6E7E431E396BAA003BAE00 /* tunnel.conf in Resources */ = {isa = PBXBuildFile; fileRef = 1E6E7E421E396BAA003BAE00 /* tunnel.conf */; };
 		1ECF11F21E366446001CECC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF11F11E366446001CECC9 /* AppDelegate.m */; };
 		1ECF11F51E366446001CECC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF11F41E366446001CECC9 /* main.m */; };
 		1ECF11F81E366446001CECC9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF11F71E366446001CECC9 /* ViewController.m */; };
@@ -14,7 +17,6 @@
 		1ECF11FD1E366446001CECC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ECF11FB1E366446001CECC9 /* Main.storyboard */; };
 		1ECF12081E366446001CECC9 /* controllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF12071E366446001CECC9 /* controllerTests.m */; };
 		1ECF12131E366446001CECC9 /* controllerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ECF12121E366446001CECC9 /* controllerUITests.m */; };
-		1ECF12221E3681E9001CECC9 /* i2pd in Resources */ = {isa = PBXBuildFile; fileRef = 1ECF12201E367679001CECC9 /* i2pd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E6E7E3C1E38DF20003BAE00 /* i2pd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = i2pd; sourceTree = "<group>"; };
+		1E6E7E3E1E3937C7003BAE00 /* i2pd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = i2pd.png; sourceTree = "<group>"; };
+		1E6E7E421E396BAA003BAE00 /* tunnel.conf */ = {isa = PBXFileReference; lastKnownFileType = text; path = tunnel.conf; sourceTree = "<group>"; };
 		1ECF11ED1E366446001CECC9 /* controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = controller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ECF11F01E366446001CECC9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1ECF11F11E366446001CECC9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -50,7 +55,6 @@
 		1ECF120E1E366446001CECC9 /* controllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = controllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ECF12121E366446001CECC9 /* controllerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = controllerUITests.m; sourceTree = "<group>"; };
 		1ECF12141E366446001CECC9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1ECF12201E367679001CECC9 /* i2pd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = i2pd; path = ../../i2pd/i2pd; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +85,9 @@
 		1ECF11E41E366446001CECC9 = {
 			isa = PBXGroup;
 			children = (
-				1ECF12201E367679001CECC9 /* i2pd */,
+				1E6E7E421E396BAA003BAE00 /* tunnel.conf */,
+				1E6E7E3C1E38DF20003BAE00 /* i2pd */,
+				1E6E7E3E1E3937C7003BAE00 /* i2pd.png */,
 				1ECF11EF1E366446001CECC9 /* controller */,
 				1ECF12061E366446001CECC9 /* controllerTests */,
 				1ECF12111E366446001CECC9 /* controllerUITests */,
@@ -247,8 +253,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1ECF12221E3681E9001CECC9 /* i2pd in Resources */,
+				1E6E7E431E396BAA003BAE00 /* tunnel.conf in Resources */,
+				1E6E7E3D1E38DF20003BAE00 /* i2pd in Resources */,
 				1ECF11FA1E366446001CECC9 /* Assets.xcassets in Resources */,
+				1E6E7E3F1E3937C7003BAE00 /* i2pd.png in Resources */,
 				1ECF11FD1E366446001CECC9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

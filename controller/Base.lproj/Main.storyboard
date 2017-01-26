@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -661,8 +660,12 @@
                     </connections>
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <menu id="5XB-sh-dlD">
+                <menu autoenablesItems="NO" id="5XB-sh-dlD">
                     <items>
+                        <menuItem title="Connecting..." id="ims-9z-i22">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="Y5C-b9-1mS"/>
                         <menuItem title="Start" id="bt4-JE-9na">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
@@ -675,6 +678,7 @@
                                 <action selector="StopI2PD:" target="Voe-Tx-rLC" id="zOz-JV-UPJ"/>
                             </connections>
                         </menuItem>
+                        <menuItem isSeparatorItem="YES" id="NoG-9r-Jc7"/>
                         <menuItem title="Quit" id="xVq-EG-IUZ">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
