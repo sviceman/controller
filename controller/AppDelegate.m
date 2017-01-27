@@ -46,10 +46,6 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     
     NSError *error;
-    
-    //NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dataToSend options:0 error:&error];
-    
-    //NSString *jsonString;
     if (! data) {
         NSLog(@"Got an error: %@", error);
     } else {
@@ -171,7 +167,6 @@
                                 default:
                                     Status=@"Connecting";
                             }
-                            NSLog(Status);
                             [[_statusMenu itemAtIndex:0]  setTitle:Status];
                         
                               [calledBy performSelector:successCallback withObject:result];
