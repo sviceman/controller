@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BC02A9ADDB460F04ACB4ABCE161BB397FE631A54",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "FAD0E86585100337D4D94CF1011B1DA87E480F89" : 9223372036854775807,
+    "BC02A9ADDB460F04ACB4ABCE161BB397FE631A54" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0BB3739A-7F9B-4B9C-A55F-EF137E6E17A4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "FAD0E86585100337D4D94CF1011B1DA87E480F89" : "..\/i2pd",
+    "BC02A9ADDB460F04ACB4ABCE161BB397FE631A54" : "controller\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "controller",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "controller.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sviceman\/controller.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BC02A9ADDB460F04ACB4ABCE161BB397FE631A54"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/PurpleI2P\/i2pd",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FAD0E86585100337D4D94CF1011B1DA87E480F89"
+    }
+  ]
+}
