@@ -89,12 +89,97 @@
                               NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
                                                       string, @"result",
                                                       nil];
-                              NSString *responseBody = [[NSString alloc] initWithData:rawData encoding:NSUTF8StringEncoding];
-                              NSLog(@"My dictionary is %@", responseBody);
+
+                           
                               [calledBy performSelector:successCallback withObject:result];
+                              
                           }
                       }];
 }
+
+
+
+- (void) CheckStatus:(NSString *)data
+            calledBy:(id)calledBy
+         withSuccess:(SEL)successCallback
+          andFailure:(SEL)failureCallback{
+    [self placePostRequestWithURL:@"https://localhost:7650/jsonrpc"
+                             data:data
+                      withHandler:^(NSURLResponse *response, NSData *rawData, NSError *error) {
+                          NSString *string = data;
+                          
+                          NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+                          NSInteger code = [httpResponse statusCode];
+                          
+                        NSLog(@"%ld", (long)code);
+                          
+                        if (!(code >= 200 && code < 300)) {
+                            NSLog(@"ERROR (%ld): %@", (long)code, string);
+                            [calledBy performSelector:failureCallback withObject:string];
+                        } else {
+                        NSLog(@"OK");
+                            
+                        NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                string, @"result",
+                                                nil];
+                        NSString *responseBody = [[NSString alloc] initWithData:rawData encoding:NSUTF8StringEncoding];
+                        NSError *jsonError;
+                        NSLog(@"Response %@", responseBody);
+                            
+                        NSData* jsonData = [responseBody dataUsingEncoding:NSUTF8StringEncoding];
+                        NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&jsonError];
+                        NSLog(@"Status: %@", [[jsonObject objectForKey:@"result"] objectForKey:@"i2p.router.net.status"]);
+                            NSDictionary *statusObject = [jsonObject objectForKey:@"result"];
+                        int status_code = [[statusObject objectForKey:@"i2p.router.net.status"] intValue];
+                        //NSLog(@"Code: %@", status_code);
+                            NSString *Status;
+                            switch (status_code) {
+                                case 0:
+                                    Status=@"OK";
+                                    break;
+                                case 1:
+                                    Status=@"Testing";
+                                    break;
+                                case 2:
+                                    Status=@"FIREWALLED";
+                                    break;
+                                case 3:
+                                    Status=@"HIDDEN";
+                                case 4:
+                                    Status=@"WARN";
+                                case 5:
+                                    Status=@"WARN";
+                                case 6:
+                                    Status=@"WARN";
+                                case 7:
+                                    Status=@"WARN";
+                                case 8:
+                                    Status=@"ERROR";
+                                case 9:
+                                    Status=@"ERROR";
+                                case 10:
+                                    Status=@"ERROR";
+                                case 11:
+                                    Status=@"ERROR";
+                                case 12:
+                                    Status=@"ERROR";
+                                case 13:
+                                    Status=@"ERROR";
+                                case 14:
+                                    Status=@"ERROR";
+
+                                default:
+                                    Status=@"Connecting";
+                            }
+                            NSLog(Status);
+                            [[_statusMenu itemAtIndex:0]  setTitle:Status];
+                        
+                              [calledBy performSelector:successCallback withObject:result];
+                              
+                          }
+                      }];
+}
+
 - (void)RequestEnd:(id)result{
     NSLog(@"ReuqestEnd:");
     // Do your actions
@@ -116,18 +201,7 @@
     
     [self.statusItem setHighlightMode:YES];
     [[_statusMenu itemAtIndex:0]  setEnabled:NO];
-    //CFBundleRef mainBundle;
-    
-    
-    //NSString *dir=[[NSFileManager defaultManager] currentDirectoryPath];
-    //[[NSAlert alertWithMessageText:@"dir"
-    //                 defaultButton:@"OK"
-    //               alternateButton:nil
-    //                   otherButton:nil
-    //     informativeTextWithFormat:dir] runModal];
-    // Get the main bundle for the app
-    
-    //mainBundle = CFBundleGetMainBundle();
+
 
     
     
@@ -152,17 +226,17 @@
 
     NSImage *icon = [NSImage imageNamed:@"Connected"];
     self.statusItem.image = icon;
+    NSString *dataSend = @"{\"id\":\"1\", \"method\":\"RouterInfo\",\"params\":{\"i2p.router.net.status\":\"\"},\"jsonrpc\":\"2.0\"}";
+    
+    [self CheckStatus:dataSend
+             calledBy:self
+          withSuccess:@selector(RequestEnd:)
+           andFailure:@selector(RequestFailure:)];
 }
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     return [menuItem isEnabled];
 }
 - (IBAction)StopI2PD:(id)sender {
-    //NSDictionary *dataToSend = [NSDictionary dictionaryWithObjectsAndKeys:
-    //                            @"id" , @"1",
-    //                            @"method", @"RouterManager",
-    //                            @"param",@"{\"Shutdown\":\"\"}",
-    //                            @"jsonrpc", @"2.0",
-    //                            nil];
     NSString *dataSend = @"{\"id\":\"1\", \"method\":\"RouterManager\",\"params\":{\"Shutdown\":\"\"},\"jsonrpc\":\"2.0\"}";
     
     [self SendRequest:dataSend
