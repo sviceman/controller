@@ -662,8 +662,11 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu autoenablesItems="NO" id="5XB-sh-dlD">
                     <items>
-                        <menuItem title="Connecting..." id="ims-9z-i22">
+                        <menuItem title="Settings" id="ims-9z-i22">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <segue destination="XfG-lQ-9wD" kind="show" id="luk-xC-b5r"/>
+                            </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Y5C-b9-1mS"/>
                         <menuItem title="Start" id="bt4-JE-9na">
@@ -717,7 +720,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="53" y="422"/>
         </scene>
     </scenes>
 </document>

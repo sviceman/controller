@@ -10,6 +10,7 @@
 #import "sys/socket.h"
 
 @interface AppDelegate ()
+@property (nonatomic, retain) NSMutableData *_responseData;
 
 @end
 
@@ -26,6 +27,9 @@
 @end
 
 @implementation AppDelegate
+
+@synthesize responseData = _responseData;
+
 
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 
@@ -95,7 +99,8 @@
 
 
 
-- (void) CheckStatus:(NSString *)data
+/*
+ - (void) CheckStatus:(NSString *)data
             calledBy:(id)calledBy
          withSuccess:(SEL)successCallback
           andFailure:(SEL)failureCallback{
@@ -174,6 +179,75 @@
                           }
                       }];
 }
+*/
+
+/*
+- (void) CheckStatus:(NSString *)data
+            calledBy:(id)calledBy
+         withSuccess:(SEL)successCallback
+          andFailure:(SEL)failureCallback{
+    int status_code = 0;
+    while ( status_code != 1 )
+    {
+
+    [self placePostRequestWithURL:@"https://localhost:7650/jsonrpc"
+                             data:data
+                      withHandler:^(NSURLResponse *response, NSData *rawData, NSError *error) {
+                          NSString *string = data;
+                          
+                          NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+                          NSInteger code = [httpResponse statusCode];
+                          
+                          NSLog(@"%ld", (long)code);
+                          
+                          if (!(code >= 200 && code < 300)) {
+                              NSLog(@"ERROR (%ld): %@", (long)code, string);
+                              [calledBy performSelector:failureCallback withObject:string];
+                          } else {
+                              NSLog(@"OK");
+                              
+                              NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      string, @"result",
+                                                      nil];
+                              NSString *responseBody = [[NSString alloc] initWithData:rawData encoding:NSUTF8StringEncoding];
+                              NSError *jsonError;
+                              NSLog(@"Response %@", responseBody);
+                              
+                              NSData* jsonData = [responseBody dataUsingEncoding:NSUTF8StringEncoding];
+                              NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&jsonError];
+                              NSLog(@"Status: %@", [[jsonObject objectForKey:@"result"] objectForKey:@"i2p.router.status"]);
+                              NSDictionary *statusObject = [jsonObject objectForKey:@"result"];
+                              int status_code = [[statusObject objectForKey:@"i2p.router.status"] intValue];
+                              NSLog(@"Code: %@", status_code);
+                              
+                              
+                              //[[_statusMenu itemAtIndex:0]  setTitle:Status];
+                              
+                              [calledBy performSelector:successCallback withObject:result];
+                              
+                          }
+                      }];
+        sleep(10);
+        NSLog(@"status_code");
+        NSImage *icon = [NSImage imageNamed:@"Connected"];
+        self.statusItem.image = icon;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - (void)RequestEnd:(id)result{
     NSLog(@"ReuqestEnd:");
@@ -185,6 +259,90 @@
     // Do your actions
 }
 
+
+*/
+
+
+
+- (void)load {
+    self.responseData = [NSMutableData data];
+    NSURL *myURL = [NSURL URLWithString:@"https://localhost:7650/jsonrpc"];
+     NSString *dataSend = @"{\"id\":\"1\", \"method\":\"RouterInfo\",\"params\":{\"i2p.router.status\":\"\"},\"jsonrpc\":\"2.0\"}";
+    NSData *postData = [dataSend dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+
+    NSLog(@"%@", dataSend);
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:myURL
+                                             cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                         timeoutInterval:60];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[dataSend length]] forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPBody: postData];
+    
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+#pragma mark - NSURLConnection Delegate Methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    [self.responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.responseData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self load];
+
+    NSLog(@"Connection failed: %@", [error description]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    //Getting your response string
+    
+    NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
+    self.responseData = nil;
+    NSLog(@"%@", responseString);
+    NSData *data = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSDictionary *statusObject = [json objectForKey:@"result"];
+
+    NSString *status_code = [statusObject objectForKey:@"i2p.router.status"];
+    if (![status_code isEqual:@"1"]) {
+        
+    
+    NSLog(@"Code: %@", status_code);
+        //sleep(5);
+        [self load];
+    }else{
+    NSImage *icon = [NSImage imageNamed:@"Connected"];
+    self.statusItem.image = icon;
+    }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
@@ -195,8 +353,7 @@
     self.statusItem.image = icon;
     
     [self.statusItem setHighlightMode:YES];
-    [[_statusMenu itemAtIndex:0]  setEnabled:NO];
-
+    //[[_statusMenu itemAtIndex:0]  setEnabled:NO];
 
     
     
@@ -212,22 +369,26 @@
     [task setLaunchPath:absPath];
     NSMutableString* tunnConf = [NSMutableString stringWithString: @"--tunconf="];
     [tunnConf appendString:confPath];
-    [task setArguments:@[ @"--i2pcontrol.enabled=1",tunnConf]];
+    [task setArguments:@[ @"--i2pcontrol.enabled=1",tunnConf,@"--loglevel=error"]];
     [task launch];
     //[_statusMenu isEnabled:false];
     //[_statusItem.enabled:0];
     [[_statusMenu itemAtIndex:2]  setEnabled:NO];
     [[_statusMenu itemAtIndex:3]  setEnabled:YES];
 
-    NSImage *icon = [NSImage imageNamed:@"Connected"];
+    NSImage *icon = [NSImage imageNamed:@"Connecting"];
     self.statusItem.image = icon;
+    [self load];
+    /*
     NSString *dataSend = @"{\"id\":\"1\", \"method\":\"RouterInfo\",\"params\":{\"i2p.router.net.status\":\"\"},\"jsonrpc\":\"2.0\"}";
     
     [self CheckStatus:dataSend
              calledBy:self
           withSuccess:@selector(RequestEnd:)
            andFailure:@selector(RequestFailure:)];
+*/
 }
+    
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     return [menuItem isEnabled];
 }

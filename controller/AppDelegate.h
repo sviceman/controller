@@ -11,6 +11,9 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
     @property (strong, nonatomic) IBOutlet NSMenu *statusMenu;
     @property (strong, nonatomic) NSStatusItem *statusItem;
+    @property (nonatomic, retain) NSMutableData *responseData;
+    
+
 
 @end
 

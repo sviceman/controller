@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ViewController : NSViewController
-
-    @property (weak) IBOutlet NSButtonCell *buttonClick;
+    @property (nonatomic, strong) NSMutableData *responseData;
+   // @property (weak) IBOutlet NSButtonCell *buttonClick;
 
 @end
 
