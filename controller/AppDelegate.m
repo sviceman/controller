@@ -248,10 +248,11 @@
 
 
 
-
+*/
 - (void)RequestEnd:(id)result{
     NSLog(@"ReuqestEnd:");
-    // Do your actions
+
+    
 }
 
 - (void)RequestFailure:(id)result{
@@ -260,7 +261,6 @@
 }
 
 
-*/
 
 
 
@@ -294,7 +294,8 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [self load];
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(load) userInfo:nil repeats:NO];
+    //[self load];
 
     NSLog(@"Connection failed: %@", [error description]);
 }
@@ -314,8 +315,10 @@
         
     
     NSLog(@"Code: %@", status_code);
-        //sleep(5);
-        [self load];
+        //sleep(3);
+        //[self performSelector:@selector(load:) withObject:nil afterDelay:5.0];
+            [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(load) userInfo:nil repeats:NO];
+        //[NSThread detachNewThreadSelector:@selector(load) toTarget:self withObject:nil];
     }else{
     NSImage *icon = [NSImage imageNamed:@"Connected"];
     self.statusItem.image = icon;
@@ -378,7 +381,9 @@
 
     NSImage *icon = [NSImage imageNamed:@"Connecting"];
     self.statusItem.image = icon;
-    [self load];
+    //[NSThread detachNewThreadSelector:@selector(load) toTarget:self withObject:nil];
+        [NSTimer scheduledTimerWithTimeInterval:.16 target:self selector:@selector(load) userInfo:nil repeats:NO];
+    //[self load];
     /*
     NSString *dataSend = @"{\"id\":\"1\", \"method\":\"RouterInfo\",\"params\":{\"i2p.router.net.status\":\"\"},\"jsonrpc\":\"2.0\"}";
     
@@ -392,6 +397,7 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     return [menuItem isEnabled];
 }
+
 - (IBAction)StopI2PD:(id)sender {
     NSString *dataSend = @"{\"id\":\"1\", \"method\":\"RouterManager\",\"params\":{\"Shutdown\":\"\"},\"jsonrpc\":\"2.0\"}";
     
@@ -406,16 +412,29 @@
 
 
 }
-
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+- (IBAction)ShowWin:(id)sender {
+    NSWindowController *controllerWindow = [[NSWindowController alloc] initWithWindowNibName:@"Controller"];
+    [controllerWindow showWindow:self];
+}
+- (IBAction)ExitApp:(id)sender {
     NSString *dataSend = @"{\"id\":\"1\", \"method\":\"RouterManager\",\"params\":{\"Shutdown\":\"\"},\"jsonrpc\":\"2.0\"}";
     
     [self SendRequest:dataSend
              calledBy:self
           withSuccess:@selector(RequestEnd:)
            andFailure:@selector(RequestFailure:)];
+
+    for (NSWindow *window in [NSApplication sharedApplication].windows) {
+        [window close];
+    }
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(terminate:self:) userInfo:nil repeats:NO];
+    //[NSApp terminate:self];
+}
+
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    // Insert code here to tear down your application
+    //    usleep(3000000);
 }
 
 

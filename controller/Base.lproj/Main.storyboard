@@ -665,7 +665,8 @@
                         <menuItem title="Settings" id="ims-9z-i22">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <segue destination="XfG-lQ-9wD" kind="show" id="luk-xC-b5r"/>
+                                <action selector="ShowWin:" target="Voe-Tx-rLC" id="rPi-Zm-OvN"/>
+                                <segue destination="0Qm-3L-sm9" kind="show" id="u2G-60-TYh"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Y5C-b9-1mS"/>
@@ -685,7 +686,7 @@
                         <menuItem title="Quit" id="xVq-EG-IUZ">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="terminate:" target="hnw-xV-0zn" id="pdM-bF-FQj"/>
+                                <action selector="ExitApp:" target="Voe-Tx-rLC" id="oJF-re-MPA"/>
                             </connections>
                         </menuItem>
                     </items>
@@ -693,34 +694,35 @@
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="hIz-AP-VOD">
+        <!--Window Controller-->
+        <scene sceneID="h3g-KE-5oI">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
+                <windowController id="0Qm-3L-sm9" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="a7m-NK-qhf" userLabel="Controller">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="163" y="199" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
+                    </window>
+                    <connections>
+                        <segue destination="8d7-Nd-Qcz" kind="relationship" relationship="window.shadowedContentViewController" id="Hda-jm-2WO"/>
+                    </connections>
+                </windowController>
+                <customObject id="U6B-oN-pzm" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="385"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="r8F-dK-8cP">
+            <objects>
+                <customObject id="l6E-yy-ig4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController id="8d7-Nd-Qcz" sceneMemberID="viewController">
+                    <view key="view" id="DaI-PO-5iN">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <button verticalHuggingPriority="750" id="I30-30-E1b">
-                                <rect key="frame" x="312" y="117" width="81" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CVC-yk-WDl">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="buttonClick:" target="XfG-lQ-9wD" id="5XP-rV-ltE"/>
-                                    </connections>
-                                </buttonCell>
-                            </button>
-                        </subviews>
                     </view>
-                    <connections>
-                        <outlet property="buttonClick" destination="CVC-yk-WDl" id="F6G-Ry-NVU"/>
-                    </connections>
                 </viewController>
-                <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="422"/>
         </scene>
     </scenes>
 </document>
